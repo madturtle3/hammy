@@ -1,4 +1,4 @@
-import sys
+#!/Library/Frameworks/Python.framework/Versions/3.10/bin/python3.10
 import scipy.io
 import scipy
 import scipy.fftpack
