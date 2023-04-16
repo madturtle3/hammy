@@ -56,7 +56,7 @@ result_vales = []
 times = []
 on_data=[]
 total_data = []
-NOISE_FLOOR = 2 * (10**6) * harmonics_dupe
+NOISE_FLOOR = 0
 on = False
 time_on = 0
 sample_count = 0
@@ -138,8 +138,9 @@ try:
                         print(full_text[-1], end=" ", flush=True)
                     word = ""
                 
-        #NOISE_FLOOR = (sum(total_data) // len(total_data)) * 1.5
+        
         result_vales.append(final_data)
+        NOISE_FLOOR = (sum(result_vales) // len(result_vales))
         on_data.append(NOISE_FLOOR * on)
         sample_count += bin_samples
 
