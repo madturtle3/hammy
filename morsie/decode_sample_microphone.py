@@ -80,8 +80,7 @@ try:
         for layer in range(harmonics_dupe):
             bin_data = fft_data[get_bin(frequency * (layer + 1))] * 100
             final_data += int(abs(bin_data)) / 100
-        if not on:
-            total_data.append(final_data)
+        total_data.append(final_data)
         time_on += bin_samples / rate
         time_on = time_on
         if final_data > NOISE_FLOOR:
@@ -140,8 +139,9 @@ try:
                 
         
         result_vales.append(final_data)
-        NOISE_FLOOR = (sum(result_vales) // len(result_vales))
-        on_data.append(NOISE_FLOOR * on)
+        NOISE_FLOOR = ((sum(total_data) // len(total_data)))
+        if len(total_data) > RATE * 2:
+            total_data = total_data[RATE:]
         sample_count += bin_samples
 
 except KeyboardInterrupt:
