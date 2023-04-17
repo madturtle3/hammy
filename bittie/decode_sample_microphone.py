@@ -40,7 +40,8 @@ stream = pyaudio.PyAudio().open(RATE, CHANNELS, FORMAT, True)
 result_vales = []
 times = []
 on_data=[]
-total_data = []
+all_noise = []
+on_noise = []
 NOISE_FLOOR = 0
 on = False
 time_on = 0
@@ -66,7 +67,7 @@ try:
         for layer in range(harmonics_dupe):
             bin_data = fft_data[get_bin(frequency * (layer + 1))] * 100
             final_data += int(abs(bin_data)) / 100
-        total_data.append(final_data)
+        all_noise.append(final_data)
         time_on += bin_samples / rate
         time_on = time_on
         if final_data > NOISE_FLOOR:
@@ -118,9 +119,10 @@ try:
         
         result_vales.append(final_data)
 
-        NOISE_FLOOR = ((sum(total_data) // len(total_data)))
-        if len(total_data) > RATE * 2:
-            total_data = total_data[RATE:]
+        all_noise.append(final_data)
+        if on:
+            on_noise.append(final_data)
+        NOISE_FLOOR = (((sum(all_noise) // len(all_noise))) + (sum(on_noise) // len(all_noise)) * 1.5) // 2 * 1.5
         
         
         on_data.append(NOISE_FLOOR * on)
